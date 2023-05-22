@@ -20,7 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cardswapshop.dto.request.RegisterRequest;
+import com.example.cardswapshop.dto.response.TokenResponse;
 import com.example.cardswapshop.helpers.StringHelper;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -71,26 +74,23 @@ public class Registro extends AppCompatActivity {
 
         String url = "http://10.0.2.2:8080/api/v1/auth/register";
 
-        JSONObject param = new JSONObject();
-        try {
-            param.put("firstname",RegFName.getText().toString());
-            param.put("lastname",RegLName.getText().toString());
-            param.put("email",RegEmail.getText().toString());
-            param.put("password",RegPassword.getText().toString());
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, param, new Response.Listener<JSONObject>() {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setFirstname(RegFName.getText().toString());
+        registerRequest.setLastname(RegLName.getText().toString());
+        registerRequest.setEmail(RegEmail.getText().toString());
+        registerRequest.setPassword(RegPassword.getText().toString());
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, registerRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                Gson gson = new Gson();
+                TokenResponse tokenResponse = gson.fromJson(response.toString(), TokenResponse.class);
                 RegFName.setText("");
                 RegLName.setText("");
                 RegEmail.setText("");
                 RegPassword.setText("");
                 SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                String token = null;
+                String token = tokenResponse.getToken();
                 editor.putString("token", token);
                 editor.commit();
 
