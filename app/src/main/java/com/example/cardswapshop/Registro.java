@@ -63,11 +63,15 @@ public class Registro extends AppCompatActivity {
         RegRegisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                processFormFields();
+                try {
+                    processFormFields();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
-    public void processFormFields() {
+    public void processFormFields() throws JSONException {
         if (!validateFirstName() || !validateLastName() || !validateEmail() || !validatePass()) {
             return;
         }
@@ -79,7 +83,10 @@ public class Registro extends AppCompatActivity {
         registerRequest.setLastname(RegLName.getText().toString());
         registerRequest.setEmail(RegEmail.getText().toString());
         registerRequest.setPassword(RegPassword.getText().toString());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, registerRequest, new Response.Listener<JSONObject>() {
+
+        Gson gson = new Gson();
+        JSONObject req = new JSONObject(gson.toJson(registerRequest));
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, req, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Gson gson = new Gson();

@@ -2,7 +2,7 @@ package com.example.cardswapshop.dto.request;
 
 import org.json.JSONObject;
 
-public class RegisterRequest extends JSONObject {
+public class RegisterRequest {
     private String firstname;
     private String lastname;
     private String email;
