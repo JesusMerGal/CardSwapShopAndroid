@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CardSwapShop</string>
+    <string name="welcome_msg">CardSwapShop</string>
+
+    <string-array name="Collection_array">
+        <item>Pokémon</item>
+        <item>Digimon</item>
+        <item>Yu-Gi-Oh!</item>
+        <item>Dragon Ball</item>
+        <item>Magic the Gathering</item>
+        <item>La Liga</item>
+    </string-array>
+</resources>
