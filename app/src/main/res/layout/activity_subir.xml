@@ -38,12 +38,12 @@
         app:layout_constraintTop_toBottomOf="@+id/UpNameTxt" />
 
     <EditText
-        android:id="@+id/UpEdiTxt"
+        android:id="@+id/UpNumTxt"
         android:layout_width="196dp"
         android:layout_height="43dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Edición"
+        android:hint="Código carta"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.368"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/UpNameTxt" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/imageViewUp"
         android:layout_width="231dp"
         android:layout_height="168dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,26 +64,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/black"
         android:text="Subir desde la galeria"
         app:layout_constraintEnd_toStartOf="@+id/UpCamBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewUp" />
 
     <Button
         android:id="@+id/UpCamBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/black"
         android:text="Cámara"
         app:layout_constraintBottom_toTopOf="@+id/UpNameTxt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewUp"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/UpSubirBtn"
