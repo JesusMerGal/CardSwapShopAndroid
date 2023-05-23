@@ -89,16 +89,15 @@ public class MainActivity extends AppCompatActivity {
                 LogPassword.setText("");
                 sharedData.setValue(tokenResponse.getToken());
 
-
-
-
-                Toast.makeText(MainActivity.this, "Loggued in", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, Inicio.class);
+                startActivity(intent);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Registro NO completado", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Login NO completado", Toast.LENGTH_LONG).show();
             }
         }
         )

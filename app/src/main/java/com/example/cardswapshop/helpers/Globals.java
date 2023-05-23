@@ -17,6 +17,7 @@ public class Globals {
     private String notification_index;
 
 
+
     private Globals() {
 
     }
@@ -30,7 +31,4 @@ public class Globals {
     public void setValue(String notification_index) {
         this.notification_index = notification_index;
     }
-
-
-
 }

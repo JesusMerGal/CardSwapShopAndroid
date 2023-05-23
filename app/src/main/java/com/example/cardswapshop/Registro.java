@@ -103,11 +103,9 @@ public class Registro extends AppCompatActivity {
                 RegPassword.setText("");
                 sharedData.setValue(tokenResponse.getToken());
 
-
-
-
                 Toast.makeText(Registro.this, "Registro completado", Toast.LENGTH_LONG).show();
-
+                Intent intent = new Intent(Registro.this, MainActivity.class);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override

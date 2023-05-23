@@ -7,11 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.cardswapshop.helpers.Globals;
+
 public class Inicio extends AppCompatActivity {
 
     Button IniSubirBtn;
     Button IniBuscarBtn;
     Button IniCartasBtn;
+
+    Globals sharedData = Globals.getInstance();
 
     @SuppressLint("MissingInflatedId")
     @Override
