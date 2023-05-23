@@ -1,6 +1,11 @@
 package com.example.cardswapshop;
 
-import androidx.annotation.Nullable;
+
+
+
+
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,24 +17,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+
 import com.android.volley.toolbox.Volley;
 import com.example.cardswapshop.dto.request.RegisterRequest;
 import com.example.cardswapshop.dto.response.TokenResponse;
+import com.example.cardswapshop.helpers.Globals;
 import com.example.cardswapshop.helpers.StringHelper;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Registro extends AppCompatActivity {
 
@@ -39,6 +44,7 @@ public class Registro extends AppCompatActivity {
 
     private RequestQueue queue;
 
+    Globals sharedData = Globals.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +101,10 @@ public class Registro extends AppCompatActivity {
                 RegLName.setText("");
                 RegEmail.setText("");
                 RegPassword.setText("");
-                SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                String token = tokenResponse.getToken();
-                editor.putString("token", token);
-                editor.commit();
+                sharedData.setValue(tokenResponse.getToken());
 
-                System.out.println(preferences.getString("token", ""));
+
+
 
                 Toast.makeText(Registro.this, "Registro completado", Toast.LENGTH_LONG).show();
 
