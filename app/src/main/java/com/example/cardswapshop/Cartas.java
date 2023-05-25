@@ -1,12 +1,20 @@
 package com.example.cardswapshop;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -14,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cardswapshop.dto.response.CardResponse;
@@ -36,7 +45,7 @@ public class Cartas extends AppCompatActivity {
     Globals sharedData = Globals.getInstance();
 
     private ArrayList<CardsListView> cardList;
-
+    private CardAdapter adapter;
     private RequestQueue queue;
 
     @Override
@@ -45,7 +54,6 @@ public class Cartas extends AppCompatActivity {
         setContentView(R.layout.activity_cartas);
         cardList = new ArrayList<>();
         queue = Volley.newRequestQueue(Cartas.this);
-
         String url = "http://10.0.2.2:8080/api/v1/card";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -54,9 +62,16 @@ public class Cartas extends AppCompatActivity {
                 Gson gson = new Gson();
                 ListCardsReponse listCardsReponse = gson.fromJson(response.toString(), ListCardsReponse.class);
                 cardList = generateListObject(listCardsReponse);
-                cartRecView=findViewById(R.id.CartRecView);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager( Cartas.this);
-                cartRecView.setLayoutManager(linearLayoutManager);
+                if(!cardList.isEmpty()) {
+                    cartRecView = findViewById(R.id.CartRecView);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Cartas.this);
+                    cartRecView.setLayoutManager(linearLayoutManager);
+                    adapter = new CardAdapter();
+                    cartRecView.setAdapter(adapter);
+                    adapter.notifyItemRangeInserted(0, cardList.size() - 1);
+                }else{
+                    Toast.makeText(Cartas.this, "No tienes cartas", Toast.LENGTH_LONG).show();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -73,7 +88,7 @@ public class Cartas extends AppCompatActivity {
                 return params;
             }
         };
-        queue.add(request);
+
 
 
         CartAtrasBtn = (Button) findViewById(R.id.CartAtrasBtn);
@@ -81,6 +96,7 @@ public class Cartas extends AppCompatActivity {
             Intent intent = new Intent(Cartas.this, Inicio.class);
             startActivity(intent);
         });
+        queue.add(request);
     }
 
     public ArrayList<CardsListView> generateListObject(ListCardsReponse response){
@@ -94,5 +110,49 @@ public class Cartas extends AppCompatActivity {
             cards.add(card);
         }
         return cards;
+    }
+
+    private class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardAdapterHolder>{
+
+        @NonNull
+        @Override
+        public CardAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new CardAdapterHolder(getLayoutInflater().inflate(R.layout.layout_carta,parent,false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CardAdapterHolder holder, int position) {
+            holder.print(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return cardList.size();
+        }
+
+        class CardAdapterHolder extends RecyclerView.ViewHolder {
+            TextView tvCardName, tvCardCategory, tvCardNumber;
+            ImageView ivCardImage;
+            public CardAdapterHolder(@NonNull View itemView){
+                super(itemView);
+                tvCardName = itemView.findViewById(R.id.tvCardName);
+                tvCardCategory = itemView.findViewById(R.id.tvCardCategory);
+                tvCardNumber = itemView.findViewById(R.id.tvCardNumber);
+                ivCardImage = itemView.findViewById(R.id.ivCardImage);
+            }
+            public void print(int position){
+                tvCardName.setText("Nombre: " + cardList.get(position).getName());
+                tvCardCategory.setText("Collection: " + cardList.get(position).getCategory());
+                tvCardNumber.setText("Código Carta: " + cardList.get(position).getCardNumber());
+                recoverImage(cardList.get(position).getImage(),ivCardImage);
+            }
+
+            public void recoverImage(String image, ImageView imageView){
+                byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imageView.setImageBitmap(decodedByte);
+            }
+
+        }
     }
 }

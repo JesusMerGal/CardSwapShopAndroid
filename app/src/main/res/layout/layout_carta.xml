@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/cardName"
+            android:id="@+id/tvCardName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#2D2F31"
@@ -25,14 +25,14 @@
             android:textColor="#FFFFFF" />
 
         <ImageView
-            android:id="@+id/cardImage"
+            android:id="@+id/ivCardImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00BCD4"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/cardCategory"
+            android:id="@+id/tvCardCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00BCD4"
@@ -41,7 +41,7 @@
             android:textColor="#2D2F31" />
 
         <TextView
-            android:id="@+id/cardNumber"
+            android:id="@+id/tvCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00BCD4"
