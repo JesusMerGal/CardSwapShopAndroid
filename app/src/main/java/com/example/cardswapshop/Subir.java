@@ -72,6 +72,7 @@ public class Subir extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subir);
         context = this;
+        categoriesCode = new HashMap<>();
         queue = Volley.newRequestQueue(Subir.this);
         UpName = findViewById(R.id.UpNameTxt);
         UpNum = findViewById(R.id.UpNumTxt);
@@ -227,7 +228,7 @@ public class Subir extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Subir.this, "Error al cargar cartas", Toast.LENGTH_LONG).show();
+                Toast.makeText(Subir.this, "Error al cargar Colecciones", Toast.LENGTH_LONG).show();
             }
         }
         )
@@ -244,8 +245,8 @@ public class Subir extends AppCompatActivity {
 
     public List<String> getListOfCollections(ListCollectionsResponse collectionsResponse){
         List<String> collections = new ArrayList<>();
-        collections.add("todas");
-        categoriesCode.put("todas","0");
+        collections.add("coleccion");
+        categoriesCode.put("coleccion","0");
         for (CollectionResponse c : collectionsResponse.getCollections()){
             collections.add(c.getName());
             categoriesCode.put(c.getName(),c.getId().toString());
