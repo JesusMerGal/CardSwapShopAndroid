@@ -93,7 +93,20 @@ public class Subir extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+
+        UpGaleryBtn = (Button) this.findViewById(R.id.UpGaleryBtn);
+        UpGaleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galery = new Intent(Intent.ACTION_PICK);
+                galery.setType("image/");
+                startActivityForResult(galery, SELECT_PHOTO);
+            }
+        });
+
+
         this.imageViewUp = (ImageView) this.findViewById(R.id.imageViewUp);
+
         getCategories();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -192,17 +205,6 @@ public class Subir extends AppCompatActivity {
             }
         }
 
-
-        UpGaleryBtn = (Button) this.findViewById(R.id.UpGaleryBtn);
-        UpGaleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galery = new Intent(Intent.ACTION_PICK);
-                galery.setType("image/");
-                startActivityForResult(galery, SELECT_PHOTO);
-            }
-        });
-        this.imageViewUp = (ImageView) this.findViewById(R.id.imageViewUp);
 
     }
 
