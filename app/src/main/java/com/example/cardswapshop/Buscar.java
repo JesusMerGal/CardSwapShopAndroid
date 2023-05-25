@@ -101,7 +101,11 @@ public class Buscar extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
                 categoryId = categoriesCode.get(collections.get(position));
-                getAllCardsByCategory(categoryId,null);
+                if(categoryId.equals("0")){
+                    getAllCards(null);
+                }else {
+                    getAllCardsByCategory(categoryId, null);
+                }
             }
 
             @Override
@@ -299,6 +303,8 @@ public class Buscar extends AppCompatActivity {
 
     public List<String> getListOfCollections(ListCollectionsResponse collectionsResponse){
         List<String> collections = new ArrayList<>();
+        collections.add("todas");
+        categoriesCode.put("todas","0");
         for (CollectionResponse c : collectionsResponse.getCollections()){
             collections.add(c.getName());
             categoriesCode.put(c.getName(),c.getId().toString());
