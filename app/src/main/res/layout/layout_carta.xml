@@ -28,6 +28,7 @@
             android:id="@+id/ivCardImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:background="#00BCD4"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -35,6 +36,7 @@
             android:id="@+id/tvCardCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:background="#00BCD4"
             android:text="TextView"
             android:textAlignment="center"
@@ -44,6 +46,7 @@
             android:id="@+id/tvCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:background="#00BCD4"
             android:text="TextView"
             android:textAlignment="center"
