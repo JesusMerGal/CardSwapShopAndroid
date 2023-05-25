@@ -158,7 +158,8 @@ public class Subir extends AppCompatActivity {
                 Gson gson = new Gson();
                 UpName.setText("");
                 UpNum.setText("");
-
+                imageViewUp.setImageDrawable(null);
+                Toast.makeText(Subir.this, "Carta creada", Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override
