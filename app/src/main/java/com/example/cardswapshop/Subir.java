@@ -40,10 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 public class Subir extends AppCompatActivity {
@@ -151,7 +148,7 @@ public class Subir extends AppCompatActivity {
 
         Gson gson = new Gson();
         JSONObject req = new JSONObject(gson.toJson(upRequest));
-        System.out.println(req.toString());
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, req, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
