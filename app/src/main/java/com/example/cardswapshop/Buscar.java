@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Buscar extends AppCompatActivity {
 
@@ -51,10 +53,13 @@ public class Buscar extends AppCompatActivity {
     Context context;
     private Spinner buscCollSpin;
     private RecyclerView cartRecView;
+    private SearchView buscBarraTxt;
     Globals sharedData = Globals.getInstance();
 
     List<String> collections;
     private HashMap<String,String> categoriesCode;
+    String categoryId;
+    String name;
 
     private ArrayList<CardsListView> cardList;
     private Buscar.CardAdapter adapter;
@@ -67,31 +72,48 @@ public class Buscar extends AppCompatActivity {
         categoriesCode = new HashMap<>();
         queue = Volley.newRequestQueue(Buscar.this);
         buscCollSpin = (Spinner) findViewById(R.id.BuscCollSpin);
+        buscBarraTxt = findViewById(R.id.BuscBarraTxt);
         context = this;
+
         getCategories();
 
-        getAllCards();
+        getAllCards(null);
+
+        buscBarraTxt.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(categoryId != null){
+                    getAllCardsByCategory(categoryId,query);
+                }else{
+                    getAllCards(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         buscCollSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-                getAllCardsByCategory(categoriesCode.get(collections.get(position)));
+                categoryId = categoriesCode.get(collections.get(position));
+                getAllCardsByCategory(categoryId,null);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                getAllCards();
+                getAllCards(null);
             }
         });
 
         BuscAtrasBtn = (Button) findViewById(R.id.BuscAtrasBtn);
-        BuscAtrasBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    searchCards();
-            }
-
+        BuscAtrasBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Buscar.this, Inicio.class);
+            startActivity(intent);
         });
 
     }
@@ -140,6 +162,15 @@ public class Buscar extends AppCompatActivity {
                 ListCardsReponse listCardsReponse = gson.fromJson(response.toString(), ListCardsReponse.class);
                 cardList = generateListObject(listCardsReponse);
                 if(!cardList.isEmpty()) {
+                    if(name!=null) {
+                        List<CardsListView> cards = new ArrayList<>();
+                        for (CardsListView c : cardList) {
+                            if (c.getName().contains(name)) {
+                                cards.add(c);
+                            }
+                        }
+                        cardList = new ArrayList<>(cards);
+                    }
                     cartRecView = findViewById(R.id.BuscRecView);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Buscar.this);
                     cartRecView.setLayoutManager(linearLayoutManager);
@@ -168,7 +199,7 @@ public class Buscar extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void getAllCardsByCategory(String collectionId){
+    private void getAllCardsByCategory(String collectionId, String name){
         String url = "http://10.0.2.2:8080/api/v1/card/collection/" + collectionId;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -178,6 +209,15 @@ public class Buscar extends AppCompatActivity {
                 ListCardsReponse listCardsReponse = gson.fromJson(response.toString(), ListCardsReponse.class);
                 cardList = generateListObject(listCardsReponse);
                 if(!cardList.isEmpty()) {
+                    if(name!=null) {
+                        List<CardsListView> cards = new ArrayList<>();
+                        for (CardsListView c : cardList) {
+                            if (c.getName().contains(name)) {
+                                cards.add(c);
+                            }
+                        }
+                        cardList = new ArrayList<>(cards);
+                    }
                     cartRecView = findViewById(R.id.BuscRecView);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Buscar.this);
                     cartRecView.setLayoutManager(linearLayoutManager);
