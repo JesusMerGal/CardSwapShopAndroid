@@ -72,6 +72,7 @@ public class Subir extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subir);
         context = this;
+        queue = Volley.newRequestQueue(Subir.this);
         UpName = findViewById(R.id.UpNameTxt);
         UpNum = findViewById(R.id.UpNumTxt);
 
@@ -82,13 +83,10 @@ public class Subir extends AppCompatActivity {
             startActivity(intent);
         });
 
-        spinner = findViewById(R.id.UpCollSpin);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item,
-                collections);
-        spinner.setAdapter(adapter);
+        spinner = (Spinner) findViewById(R.id.UpCollSpin);
 
-        getCategories();
+
+
         UpCamBtn = (Button) this.findViewById(R.id.UpCamBtn);
         UpCamBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +96,7 @@ public class Subir extends AppCompatActivity {
             }
         });
         this.imageViewUp = (ImageView) this.findViewById(R.id.imageViewUp);
-
+        getCategories();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
@@ -113,7 +111,7 @@ public class Subir extends AppCompatActivity {
         });
 
 
-        queue = Volley.newRequestQueue(Subir.this);
+
 
         UpSubirBtn = (Button) findViewById(R.id.UpSubirBtn);
 
